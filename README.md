@@ -1,6 +1,6 @@
 # AMOR RPG — El valle del león
 
-Alfa 02 de un RPG 3D táctil, derivado del jardín mobile. Es de **un jugador**: todavía no implementa servidor, cuentas, chat ni multijugador. Proyecto personal independiente.
+Alfa 05 de un RPG 3D táctil, derivado del jardín mobile. Es de **un jugador**: todavía no implementa servidor, cuentas, chat ni multijugador. Proyecto personal independiente.
 
 ## Jugar
 
@@ -9,9 +9,9 @@ Mantener el dedo y desplazarlo ligeramente mueve al personaje; soltar lo detiene
 - Tocá un árbol, roca o veta: se acerca y recolecta hasta agotar el nodo. Regeneración en 22 segundos de juego.
 - Tocá un león o el acceso Leones: combate automático con la espada equipada. Cinco leones patrullan, persiguen y atacan fuera del pueblo. Reaparecen tras 30 segundos.
 - Cada león da 30 XP; el cuero, oro y colmillo entran automáticamente a la mochila; no aparecen bolsas en el suelo.
-- En el taller, mejorá la espada con 6 de madera, 4 de piedra, 3 de oro y 2 de cuero. Cada mejora aumenta el costo y agrega 7 de daño, hasta +5. Es el único equipo disponible.
+- En el taller, mejorá la espada con 6 de madera, 4 de piedra, 3 de oro y 2 de cuero. Cada mejora aumenta el costo y agrega 7 de daño, hasta +10. El escudo de dragón se fabrica más adelante.
 - El pueblo regenera vida; la posada la restaura. Al caer, reaparecés sin perder objetos ni experiencia.
-- La misión inicial pide derrotar 3 leones y mejorar la espada.
+- La misión inicial pide los recursos para mejorar la espada; cada paso nuevo abre un cartel grande.
 - El progreso se guarda en localStorage. Las posiciones de enemigos y nodos se reinician al recargar. Los paneles y las pestañas ocultas pausan el mundo.
 
 ## Ejecutar localmente
@@ -35,22 +35,24 @@ Las versiones originales de AMOR y mobile se conservan en sus carpetas y reposit
 
 ## Puente y bosque de osos
 
-En el taller se construye una vez por 20 de madera, 12 de piedra y 10 de oro. Abre un camino físico y transitable hacia una segunda isla. Los tres osos tienen 360 PV y hacen 25 de daño; exigen espada +5. Otorgan 100 XP, 3 cueros, 6 de oro y 2 colmillos automáticamente. Reaparecen tras 45 segundos. Tanto al cargar como al caer, el jugador aparece en el pueblo inicial. Las partidas anteriores conservan su progreso.
+En el taller se construye una vez por 20 de madera, 12 de piedra y 10 de oro. Abre un camino físico y transitable hacia una segunda isla. Los tres osos tienen 360 PV y hacen 25 de daño; recomiendan espada +5 (por debajo reciben 1 de daño por golpe). Otorgan 100 XP, 3 cueros, 6 de oro y 2 colmillos automáticamente. Reaparecen tras 45 segundos. Tanto al cargar como al caer, el jugador aparece en el pueblo inicial. Las partidas anteriores conservan su progreso.
 
-Todos los avisos se muestran arriba a la derecha. Pruebas adicionales: `node expansion.test.cjs`.
+El registro de actividad se muestra arriba a la derecha; las misiones abren un cartel y los números de daño flotan sobre cada combatiente. Pruebas adicionales: `node expansion.test.cjs`.
 
 ## Interfaz alfa 03
 
 Texto de interfaz ampliado 1,5× en ambas orientaciones; las etiquetas 3D conservan su tipografía. Recolección y recompensas aparecen en el registro superior derecho. El objetivo seleccionado flota arriba al centro. Los botones de interacción son mayores y la cámara compensa la menor altura del teléfono horizontal, conservando la escala vertical original.
 
-## Alfa 04 — mercado y encargo final
+## Alfa 05 — recursos, dragones y escudo
 
-- El objetivo seleccionado muestra barra y vida numérica. Recibir un ataque selecciona al atacante si no hay un enemigo seleccionado; nunca cambia automáticamente un objetivo enemigo activo. Tocar otro enemigo sí lo cambia.
-- Cinco tandas de los tres osos y 30 colmillos de oso habilitan construir el mercado en el taller. Los colmillos de oso ahora son un recurso separado. Se migra el progreso previo.
-- El mercado abre el oeste del pueblo y permite comprar todos los recursos por oro (el oro es la moneda, no se compra a sí mismo). Los precios y existencias se muestran antes de comprar.
-- Hay cuatro arbustos con tres extracciones de dos frutos cada uno: 24 frutos por cosecha completa, 240 por diez cosechas. Regeneran como los otros recursos.
-- Cinco ratas por horda dan un queso cada una. Tres hordas desbloquean a Don Tito en el bosque de osos. Pide 15 quesos y 240 frutos; la entrega consume los recursos una sola vez y termina la historia con «¡Sos un capo!». Se puede seguir jugando.
-- Las tandas de osos y hordas de ratas se cuentan por miembros distintos; reaparecen juntas cuando toda la horda cae. El progreso parcial de horda persiste al recargar.
-- Pruebas: `node core.test.cjs`, `node progression.test.cjs`, `node expansion.test.cjs`.
+- Los objetivos piden cantidades de recursos, sin requisitos de tandas: mercado por 30 colmillos de oso; Don Tito recibe 15 quesos y 240 frutos. El queso aparece abajo.
+- Un cartel grande anuncia cada paso nuevo. Se guarda el último cartel confirmado para no repetirlo al recargar.
+- La entrega a Don Tito abre un camino físico al sureste y el primer dragón (1100 PV, 48 de daño, 240 XP, 1 piel y 20 oro). Espada recomendada +10; cualquier espada permite seleccionarlo y combatir, pero por debajo hace solo 1 de daño por golpe. Lo mismo aplica a osos con +5.
+- La primera piel se consume en el taller para fabricar y equipar un escudo visible. Reduce el daño recibido un 70%, redondeado a entero. Aparecen cinco dragones; cada uno vuelve a aparecer tras 30 segundos.
+- El taller pide 10 pieles adicionales. Entregarlas consume los recursos una sola vez y completa los encargos; el juego continúa.
+- Daño causado en verde y recibido en rojo, grande y proyectado sobre el objetivo, con desvanecimiento de 0,85 segundos.
+- La selección automática responde a ataques solo si no hay otro enemigo seleccionado; un toque permite cambiar el objetivo.
+- El taller cierra por botón, Escape o toque exterior. Se mantienen joystick, recursos automáticos, reaparición en el pueblo y partidas anteriores. Una partida que había terminado el encargo de Don Tito continúa directamente con el dragón.
+- Las pruebas locales usan una copia temporal y partidas de prueba, sin alterar el progreso del navegador público.
 
-El taller admite cierre por botón, Escape o toque en el fondo exterior. El toque dentro no lo cierra.
+Pruebas: `node core.test.cjs`, `node progression.test.cjs`, `node expansion.test.cjs`, `node dragon.test.cjs`.
