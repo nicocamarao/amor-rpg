@@ -38,6 +38,20 @@ function mission(s){
  if(s.sword>=1)return {id:'bridge',title:'Abrí el camino al bosque',text:'Llevá 20 maderas, 12 piedras y 10 oros al taller para construir el puente.',progress:`Madera ${s.bag.wood}/20 · Piedra ${s.bag.stone}/12 · Oro ${s.bag.gold}/10`};
  return {id:'sword',title:'Prepará tu primera espada',text:'Recolectá 6 maderas, 4 piedras, 3 oros y 2 cueros de león. Mejorá tu espada en el taller.',progress:`Madera ${s.bag.wood}/6 · Piedra ${s.bag.stone}/4 · Oro ${s.bag.gold}/3 · Cuero ${s.bag.hide}/2`};
 }
+function redeemCode(s,code){if(typeof code!=='string'||code.trim().toUpperCase()!=='NIVEL10')return false;s.sword=10;return true}
+const questChapters=[
+ ['sword','Prepará tu primera espada','Reuní 6 maderas, 4 piedras, 3 oros y 2 cueros. Mejorá la espada en el taller.'],
+ ['bridge','Abrí el camino al bosque','Construí el puente con 20 maderas, 12 piedras y 10 oros.'],
+ ['market','Construí el mercado del oeste','Entregá 30 colmillos de oso en el taller. Espada recomendada: +5.'],
+ ['cheese','Matá las ratas y recogé el queso','Reuní 15 quesos para Don Tito.'],
+ ['berries','Recolectá frutos silvestres','Reuní 240 frutos silvestres del oeste.'],
+ ['trader','Llevá el queso a Don Tito','Entregá 15 quesos y 240 frutos al fondo del bosque de osos.'],
+ ['dragon','Derrotá al dragón del sureste','Conseguí 1 piel de dragón. Espada recomendada: +10.'],
+ ['shield','Construí tu escudo de dragón','Entregá 1 piel en el taller para fabricar el escudo.'],
+ ['dragon-pack','Reuní 10 pieles de dragón','Volvé al sureste y reuní 10 pieles con tu escudo equipado.'],
+ ['dragon-delivery','Volvé al taller','Entregá las 10 pieles de dragón para completar los encargos.']
+];
+function questLog(s){const current=mission(s),index=current.id==='done'?questChapters.length:questChapters.findIndex(q=>q[0]===current.id);return questChapters.map(([id,title,text],i)=>({id,title,text,status:i<index?'completed':i===index?'current':'locked',progress:i===index?current.progress:''}))}
 function respawn(s){s.hp=maxHP(s);return {x:-4,y:0,z:7}}
-const api={requiredSword,hitDamage,incomingDamage,craftShield,deliverDragonHides,mission,names,fresh,maxHP,damage,threshold,rewardXP,cost,canUpgrade,upgrade,restore,bridgeCost,canBuildBridge,buildBridge,land,canHurt,defeat,respawn,marketFangs,cheeseRequired,berriesRequired,prices,canBuildMarket,buildMarket,buy,traderReady,canFinish,finish};root.RPG=api;if(typeof module!=='undefined')module.exports=api;
+const api={redeemCode,questLog,requiredSword,hitDamage,incomingDamage,craftShield,deliverDragonHides,mission,names,fresh,maxHP,damage,threshold,rewardXP,cost,canUpgrade,upgrade,restore,bridgeCost,canBuildBridge,buildBridge,land,canHurt,defeat,respawn,marketFangs,cheeseRequired,berriesRequired,prices,canBuildMarket,buildMarket,buy,traderReady,canFinish,finish};root.RPG=api;if(typeof module!=='undefined')module.exports=api;
 })(globalThis);

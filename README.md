@@ -62,3 +62,7 @@ Pruebas: `node core.test.cjs`, `node progression.test.cjs`, `node expansion.test
 Los accesos de viaje, enemigos y recolección están en un solo botón «Acciones». El desplegable se cierra al elegir una acción, tocar afuera o presionar Escape. El toque exterior solo cierra el menú; no mueve al personaje. Ya no hay hilera inferior de objetos: el inventario completo sigue en «Mochila», arriba. La vida sobre el personaje muestra PV, espada y escudo en una línea y una barra compacta, conservando la tipografía y los valores reales. El joystick y la interacción cercana aprovechan el espacio inferior libre.
 
 Alfa 06b: 10 ratas por tanda y 8 arbustos de frutos silvestres (48 frutos por recolección completa). Los objetivos siguen pidiendo 15 quesos y 240 frutos.
+
+## Quests y códigos
+
+QUESTS, junto a VALLE · ALFA 06, abre tarjetas con scroll: completadas oscuras, actual destacada y futuras bloqueadas. Acciones → Código acepta NIVEL10 y guarda la espada +10 sin cambiar nivel, recursos ni desbloqueos. Don Tito espera en un claro al fondo del bosque de osos (0, −46), libre de los árboles cercanos.

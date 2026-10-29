@@ -41,7 +41,7 @@ function bear(x,z,index){
 }
 function expansion(){
  mesh(new THREE.CylinderGeometry(11.5,10,1.1,48),mat('#577b62'),0,-.6,-38);mesh(new THREE.CylinderGeometry(10,6,5,12),mat('#3a5548'),0,-3.6,-38);
- for(let i=0;i<18;i++){const a=i/18*Math.PI*2;tree(Math.cos(a)*10.5,-38+Math.sin(a)*10.5,1.2+rand()*.4)}
+ for(let i=0;i<18;i++){const a=i/18*Math.PI*2;const x=Math.cos(a)*10.5,z=-38+Math.sin(a)*10.5;if(Math.hypot(x,z+46)>6)tree(x,z,1.2+rand()*.4)}
  bridgeModel=new THREE.Group();scene.add(bridgeModel);for(let i=0;i<24;i++){const z=-18-i*.46;mesh(new THREE.BoxGeometry(3.4,.18,.42),mat(i%2?'#a18354':'#b09565'),0,-.03,z,bridgeModel);if(i%3===0)for(const x of [-1.65,1.65])mesh(new THREE.CylinderGeometry(.07,.09,1,6),mat('#826440'),x,.5,z,bridgeModel)}
  for(const x of [-1.65,1.65])mesh(new THREE.BoxGeometry(.08,.08,10.8),mat('#cfb57c'),x,.88,-23.3,bridgeModel);
  bridgeModel.visible=state.bridge;
@@ -143,7 +143,8 @@ function thirdRegion(){
  marketHouse=house(-38,7,'#b67d62','MERCADO','market');
  for(const [x,z]of [[-31,2],[-33,13],[-40,1],[-43,11],[-29,7],[-34,0],[-38,15],[-44,5]])bush(x,z);
  for(const [id,pos]of [[-8,4],[1,6],[7,11],[-5,13],[3,15],[-12,10],[-10,14],[8,5],[10,9],[0,17]].entries())rat(pos[0],pos[1],id);
- trader=character('#6486a1');trader.position.set(-6,0,-30.5);const tag=label('DON TITO','#ffdda1',34);tag.position.y=2.3;trader.add(tag);trader.userData={type:'trader',name:'Don Tito',approach:new THREE.Vector3(-5.5,0,-30)};entities.push(trader);
+ const titoClearing=mesh(new THREE.CircleGeometry(2.6,32),mat('#b0a57d'),0,.025,-46);titoClearing.rotation.x=-Math.PI/2;
+ trader=character('#6486a1');trader.position.set(0,0,-46);const tag=label('DON TITO','#ffdda1',34);tag.position.y=2.3;trader.add(tag);trader.userData={type:'trader',name:'Don Tito',approach:new THREE.Vector3(0,0,-44.8)};entities.push(trader);
  // Preserve unfinished waves across reloads. A full wave starts again after its cooldown.
  for(const e of lions){const d=e.userData;if((d.kind==='bear'&&(state.bearWaveMask&(1<<d.waveId)))||(d.kind==='rat'&&(state.ratWaveMask&(1<<d.waveId)))){d.type='dead';d.respawn=0;e.visible=false}}
  showMarketLand();
@@ -217,5 +218,14 @@ $('actions-panel').addEventListener('click',e=>{if(e.target.closest('button'))se
 $('actions-menu').addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();setActionsOpen(false);$('actions-toggle').focus()}});
 $('travel-rats').onclick=()=>$('find-rats').onclick();
 $('travel-trader').onclick=()=>$('find-trader').onclick();
+
+function showQuests(){
+ const quests=RPG.questLog(state);$('quests-summary').textContent=quests.filter(q=>q.status==='completed').length+' de '+quests.length+' completadas';
+ $('quest-cards').innerHTML=quests.map((q,i)=>`<article class="quest-card quest-${q.status}" ${q.status==='current'?'aria-current="step"':''}><span class="quest-state">${q.status==='completed'?'✓ COMPLETADA':q.status==='current'?'● ACTUAL':'🔒 BLOQUEADA'}</span><h3>${i+1}. ${q.title}</h3><p>${q.text}</p>${q.progress?`<strong>${q.progress}</strong>`:''}</article>`).join('');
+ $('quests-dialog').showModal();const active=$('quest-cards').querySelector('[aria-current]');$('quest-cards').scrollTop=active?Math.max(0,active.offsetTop-$('quest-cards').offsetTop-70):0;
+}
+$('quests').onclick=showQuests;
+$('open-code').onclick=()=>{setActionsOpen(false);$('code-input').value='';$('code-result').textContent='';$('code-dialog').showModal();$('code-input').focus()};
+$('code-form').addEventListener('submit',e=>{e.preventDefault();if(!RPG.redeemCode(state,$('code-input').value)){$('code-result').textContent='Ese código no es válido. Revisalo e intentá de nuevo.';return}save();ui();$('code-result').textContent='¡Código aplicado! Tu espada ahora es +10, el nivel recomendado para el dragón.'});
 
 try{init()}catch(e){$('error').hidden=false;console.error(e)}

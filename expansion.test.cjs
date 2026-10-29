@@ -32,3 +32,5 @@ state.shield=true;showDragonLand(true);afterShield=lions.filter(e=>e.visible).le
 `,context);
 assert.equal(vm.runInContext('initialDragons',context),1);assert.equal(vm.runInContext('afterFirst',context),0);assert.equal(vm.runInContext('afterShield',context),5);assert.equal(vm.runInContext('shieldVisible',context),true);
 console.log('PASS: actual dragon scene switches from one to five and shield mesh attaches to player');
+vm.runInContext(`scene=new THREE.Scene();lions.length=0;entities.length=0;resources.length=0;obstacles.length=0;state=RPG.fresh();state.bridge=true;state.market=true;expansion();thirdRegion();player.position.copy(town);selected=null;path=[];titoRoute=route(trader.userData.approach).length;titoZ=trader.position.z;`,context);
+assert.ok(vm.runInContext('titoRoute',context)>0);assert.equal(vm.runInContext('titoZ',context),-46);console.log('PASS: Don Tito sits at the back of the bear forest and has a navigable approach');
