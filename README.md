@@ -38,3 +38,7 @@ Las versiones originales de AMOR y mobile se conservan en sus carpetas y reposit
 En el taller se construye una vez por 20 de madera, 12 de piedra y 10 de oro. Abre un camino físico y transitable hacia una segunda isla. Los tres osos tienen 360 PV y hacen 25 de daño; exigen espada +5. Otorgan 100 XP, 3 cueros, 6 de oro y 2 colmillos automáticamente. Reaparecen tras 45 segundos. Tanto al cargar como al caer, el jugador aparece en el pueblo inicial. Las partidas anteriores conservan su progreso.
 
 Todos los avisos se muestran arriba a la derecha. Pruebas adicionales: `node expansion.test.cjs`.
+
+## Interfaz alfa 03
+
+Texto de interfaz ampliado 1,5× en ambas orientaciones; las etiquetas 3D conservan su tipografía. Recolección y recompensas aparecen en el registro superior derecho. El objetivo seleccionado flota arriba al centro. Los botones de interacción son mayores y la cámara compensa la menor altura del teléfono horizontal, conservando la escala vertical original.
