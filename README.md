@@ -42,3 +42,15 @@ Todos los avisos se muestran arriba a la derecha. Pruebas adicionales: `node exp
 ## Interfaz alfa 03
 
 Texto de interfaz ampliado 1,5× en ambas orientaciones; las etiquetas 3D conservan su tipografía. Recolección y recompensas aparecen en el registro superior derecho. El objetivo seleccionado flota arriba al centro. Los botones de interacción son mayores y la cámara compensa la menor altura del teléfono horizontal, conservando la escala vertical original.
+
+## Alfa 04 — mercado y encargo final
+
+- El objetivo seleccionado muestra barra y vida numérica. Recibir un ataque selecciona al atacante si no hay un enemigo seleccionado; nunca cambia automáticamente un objetivo enemigo activo. Tocar otro enemigo sí lo cambia.
+- Cinco tandas de los tres osos y 30 colmillos de oso habilitan construir el mercado en el taller. Los colmillos de oso ahora son un recurso separado. Se migra el progreso previo.
+- El mercado abre el oeste del pueblo y permite comprar todos los recursos por oro (el oro es la moneda, no se compra a sí mismo). Los precios y existencias se muestran antes de comprar.
+- Hay cuatro arbustos con tres extracciones de dos frutos cada uno: 24 frutos por cosecha completa, 240 por diez cosechas. Regeneran como los otros recursos.
+- Cinco ratas por horda dan un queso cada una. Tres hordas desbloquean a Don Tito en el bosque de osos. Pide 15 quesos y 240 frutos; la entrega consume los recursos una sola vez y termina la historia con «¡Sos un capo!». Se puede seguir jugando.
+- Las tandas de osos y hordas de ratas se cuentan por miembros distintos; reaparecen juntas cuando toda la horda cae. El progreso parcial de horda persiste al recargar.
+- Pruebas: `node core.test.cjs`, `node progression.test.cjs`, `node expansion.test.cjs`.
+
+El taller admite cierre por botón, Escape o toque en el fondo exterior. El toque dentro no lo cierra.

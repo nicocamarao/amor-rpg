@@ -1,8 +1,19 @@
 const assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs'),THREE=require('./vendor/three.min.js'),RPG=require('./core.js');
-const nodes=new Map();function node(id){if(!nodes.has(id))nodes.set(id,{style:{},classList:{add(){},remove(){}},animate(){},hidden:false});return nodes.get(id)}
+const nodes=new Map();function node(id){if(!nodes.has(id))nodes.set(id,{style:{},classList:{add(){},remove(){}},animate(){},hidden:false,events:{},addEventListener(name,fn){this.events[name]=fn},getBoundingClientRect(){return {left:100,right:400,top:100,bottom:400}},close(){this.closed=true}});return nodes.get(id)}
 const context=vm.createContext({THREE,RPG,console,localStorage:{getItem(){return null},setItem(){}},document:{getElementById:node,querySelectorAll(){return []},querySelector(){return null}},setTimeout(){return 1},clearTimeout(){},location:{reload(){}}});
 let code=fs.readFileSync('game.js','utf8');code=code.slice(0,code.lastIndexOf('try{init()}'));vm.runInContext(code,context);
 vm.runInContext(`player={position:new THREE.Vector3(-4,0,7)};marker={visible:false};ui=()=>{};pop=()=>{};toast=()=>{};state=RPG.fresh();`,context);
 assert.equal(vm.runInContext('route(new THREE.Vector3(0,0,-30)).length',context),0);
 vm.runInContext('state.bridge=true',context);assert.ok(vm.runInContext('route(new THREE.Vector3(0,0,-30)).length',context)>0);
 vm.runInContext(`state.sword=4;const testBear={visible:true,userData:{type:'bear',kind:'bear',hp:1}};perform(testBear);`,context);assert.equal(vm.runInContext('testBear.userData.hp',context),1);vm.runInContext('state.sword=5;perform(testBear)',context);assert.equal(vm.runInContext('testBear.visible',context),false);assert.equal(vm.runInContext('state.bag.hide',context),3);assert.equal(vm.runInContext('selected',context),null);assert.equal(vm.runInContext('entities.length',context),0);console.log('PASS: actual route crosses only built bridge; combat gates +5 and gives loot without ground entity');
+vm.runInContext(`
+state=RPG.fresh();state.bridge=true;state.market=true;assertRoute=route(new THREE.Vector3(-36,0,10)).length;
+player=new THREE.Group();player.position.set(0,0,-5);player.add(new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial()));sword=new THREE.Group();marker=new THREE.Object3D();selected=null;path=[];lions.length=0;
+function mockEnemy(x){const g=new THREE.Group();g.position.set(x,0,-5);g.userData={type:'lion',kind:'lion',name:'León',hp:48,max:48,home:g.position.clone(),index:0,attack:0,respawn:0,legs:[],fill:new THREE.Object3D(),aggro:true};lions.push(g);return g}
+const first=mockEnemy(.5),second=mockEnemy(-.5);tick(.01);autoTarget=selected===first;first.userData.attack=0;second.userData.attack=0;tick(.01);stickyTarget=selected===first;choose(second);manualTarget=selected===second;first.userData.attack=0;second.userData.attack=0;tick(.01);manualSticky=selected===second;
+`,context);
+assert.ok(vm.runInContext('assertRoute',context)>0);for(const k of ['autoTarget','stickyTarget','manualTarget','manualSticky'])assert.equal(vm.runInContext(k,context),true,k);
+console.log('PASS: route to market, retaliation, sticky target under multiple attackers and explicit retarget');
+vm.runInContext(`selected=null;lions.length=0;path=[];state.market=true;player.position.set(-8,0,11);obstacles.push({x:-8,z:8,r:2},{x:-38,z:7,r:2});const westGoal=new THREE.Vector3(-38,0,10);go(westGoal);for(let frame=0;frame<2000;frame++)tick(.05);reachedWest=distance(player.position,westGoal)<.25;`,context);assert.equal(vm.runInContext('reachedWest',context),true);console.log('PASS: actual movement completes the narrow western passage without boundary stalls');
+
+const dialog=nodes.get('workshop-dialog');dialog.events.pointerdown({target:dialog,clientX:20,clientY:20});dialog.events.click({target:dialog,clientX:20,clientY:20});assert.equal(dialog.closed,true);dialog.closed=false;dialog.events.pointerdown({target:dialog,clientX:200,clientY:200});dialog.events.click({target:dialog,clientX:200,clientY:200});assert.equal(dialog.closed,false);console.log('PASS: workshop backdrop closes, interior does not');
