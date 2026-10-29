@@ -1,6 +1,6 @@
 # AMOR RPG — El valle del león
 
-Alfa 05 de un RPG 3D táctil, derivado del jardín mobile. Es de **un jugador**: todavía no implementa servidor, cuentas, chat ni multijugador. Proyecto personal independiente.
+Alfa 06 de un RPG 3D táctil, derivado del jardín mobile. Es de **un jugador**: todavía no implementa servidor, cuentas, chat ni multijugador. Proyecto personal independiente.
 
 ## Jugar
 
@@ -56,3 +56,7 @@ Texto de interfaz ampliado 1,5× en ambas orientaciones; las etiquetas 3D conser
 - Las pruebas locales usan una copia temporal y partidas de prueba, sin alterar el progreso del navegador público.
 
 Pruebas: `node core.test.cjs`, `node progression.test.cjs`, `node expansion.test.cjs`, `node dragon.test.cjs`.
+
+## Alfa 06 — vista despejada
+
+Los accesos de viaje, enemigos y recolección están en un solo botón «Acciones». El desplegable se cierra al elegir una acción, tocar afuera o presionar Escape. El toque exterior solo cierra el menú; no mueve al personaje. Ya no hay hilera inferior de objetos: el inventario completo sigue en «Mochila», arriba. La vida sobre el personaje muestra PV, espada y escudo en una línea y una barra compacta, conservando la tipografía y los valores reales. El joystick y la interacción cercana aprovechan el espacio inferior libre.

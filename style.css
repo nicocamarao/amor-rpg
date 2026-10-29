@@ -38,3 +38,19 @@ dialog{color:var(--cream);background:#15352f;border:1px solid #e5c47f50;border-r
 
 @media(max-width:700px) and (orientation:portrait){.tray .slot{padding-left:0;padding-right:0}}
 @media(max-width:700px) and (orientation:portrait){.tray{padding:4px;gap:2px}.tray .slot{flex:1 1 0;min-width:0}}
+
+/* Compact field HUD: shortcuts are disclosed only on demand. */
+#actions-menu{position:fixed;z-index:13;right:max(16px,env(safe-area-inset-right));bottom:calc(18px + env(safe-area-inset-bottom))}
+#actions-toggle{min-height:50px;padding:10px 18px;font-size:21px;background:#15352ff2;border-color:#e5c47f88;box-shadow:0 3px 12px #0003}
+#actions-toggle[aria-expanded="true"]{background:#466047}
+#actions-panel.rpg-actions{position:absolute;right:0;bottom:64px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:min(360px,calc(100vw - 32px));max-width:none;max-height:calc(100dvh - var(--header-height) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 100px);overflow:auto;overscroll-behavior:contain;touch-action:pan-y;gap:8px;padding:12px;background:#15352ff5;border:1px solid #e5c47f88;border-radius:18px;box-shadow:0 8px 30px #0005}
+#actions-panel button{font-size:19.5px;min-height:48px;padding:10px 8px;border-radius:12px;text-align:left;white-space:normal}
+#actions-backdrop{position:fixed;inset:0;width:100%;height:100%;z-index:12;border:0;border-radius:0;padding:0;background:transparent;cursor:default}
+#actions-backdrop:hover{background:transparent}
+.energy{width:max-content;min-width:148px;max-width:210px;padding:6px 8px;border-radius:9px;box-shadow:0 2px 8px #0002}
+.energy>div:first-child{display:flex;align-items:center;gap:7px;font-size:15px;line-height:1.15;letter-spacing:0}
+.energy b{font-size:16.5px;line-height:1.15}.energy strong{display:inline;margin:0;font-size:16.5px;line-height:1.15;font-weight:500;white-space:nowrap}.energy-track{height:5px;margin:4px 0 0}
+#joystick{bottom:calc(22px + env(safe-area-inset-bottom))}
+#action-wrap{bottom:calc(82px + env(safe-area-inset-bottom));left:50%;max-width:calc(100vw - 32px)}
+#action{min-height:48px;padding:10px 18px;font-size:21px}
+@media(orientation:landscape) and (max-height:600px){#actions-menu{bottom:calc(12px + env(safe-area-inset-bottom))}#actions-panel.rpg-actions{bottom:60px;width:min(480px,calc(100vw - 32px));grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:8px}#actions-panel button{font-size:19.5px}#joystick{bottom:calc(16px + env(safe-area-inset-bottom))}#action-wrap{bottom:calc(18px + env(safe-area-inset-bottom));max-width:calc(100vw - 320px)}}
