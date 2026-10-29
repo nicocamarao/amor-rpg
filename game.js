@@ -141,8 +141,8 @@ function thirdRegion(){
  mesh(new THREE.BoxGeometry(12,.35,4),mat('#b9ab7e'),-22,-.16,7,marketLand);
  for(let i=0;i<13;i++){const a=i/13*Math.PI*2;const t=tree(-36+Math.cos(a)*10,7+Math.sin(a)*10,1);marketLand.add(t)}
  marketHouse=house(-38,7,'#b67d62','MERCADO','market');
- for(const [x,z]of [[-31,2],[-33,13],[-40,1],[-43,11]])bush(x,z);
- for(const [id,pos]of [[-8,4],[1,6],[7,11],[-5,13],[3,15]].entries())rat(pos[0],pos[1],id);
+ for(const [x,z]of [[-31,2],[-33,13],[-40,1],[-43,11],[-29,7],[-34,0],[-38,15],[-44,5]])bush(x,z);
+ for(const [id,pos]of [[-8,4],[1,6],[7,11],[-5,13],[3,15],[-12,10],[-10,14],[8,5],[10,9],[0,17]].entries())rat(pos[0],pos[1],id);
  trader=character('#6486a1');trader.position.set(-6,0,-30.5);const tag=label('DON TITO','#ffdda1',34);tag.position.y=2.3;trader.add(tag);trader.userData={type:'trader',name:'Don Tito',approach:new THREE.Vector3(-5.5,0,-30)};entities.push(trader);
  // Preserve unfinished waves across reloads. A full wave starts again after its cooldown.
  for(const e of lions){const d=e.userData;if((d.kind==='bear'&&(state.bearWaveMask&(1<<d.waveId)))||(d.kind==='rat'&&(state.ratWaveMask&(1<<d.waveId)))){d.type='dead';d.respawn=0;e.visible=false}}
