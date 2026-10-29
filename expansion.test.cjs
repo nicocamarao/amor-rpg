@@ -1,0 +1,8 @@
+const assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs'),THREE=require('./vendor/three.min.js'),RPG=require('./core.js');
+const nodes=new Map();function node(id){if(!nodes.has(id))nodes.set(id,{style:{},classList:{add(){},remove(){}},animate(){},hidden:false});return nodes.get(id)}
+const context=vm.createContext({THREE,RPG,console,localStorage:{getItem(){return null},setItem(){}},document:{getElementById:node,querySelectorAll(){return []},querySelector(){return null}},setTimeout(){return 1},clearTimeout(){},location:{reload(){}}});
+let code=fs.readFileSync('game.js','utf8');code=code.slice(0,code.lastIndexOf('try{init()}'));vm.runInContext(code,context);
+vm.runInContext(`player={position:new THREE.Vector3(-4,0,7)};marker={visible:false};ui=()=>{};pop=()=>{};toast=()=>{};state=RPG.fresh();`,context);
+assert.equal(vm.runInContext('route(new THREE.Vector3(0,0,-30)).length',context),0);
+vm.runInContext('state.bridge=true',context);assert.ok(vm.runInContext('route(new THREE.Vector3(0,0,-30)).length',context)>0);
+vm.runInContext(`state.sword=4;const testBear={visible:true,userData:{type:'bear',kind:'bear',hp:1}};perform(testBear);`,context);assert.equal(vm.runInContext('testBear.userData.hp',context),1);vm.runInContext('state.sword=5;perform(testBear)',context);assert.equal(vm.runInContext('testBear.visible',context),false);assert.equal(vm.runInContext('state.bag.hide',context),3);assert.equal(vm.runInContext('selected',context),null);assert.equal(vm.runInContext('entities.length',context),0);console.log('PASS: actual route crosses only built bridge; combat gates +5 and gives loot without ground entity');
